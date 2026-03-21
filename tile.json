@@ -1,0 +1,11 @@
+{
+  "name": "vlsi/codex-review",
+  "version": "1.0.0",
+  "summary": "Run code review via Codex CLI with auto-fix — reviews diffs, classifies findings, fixes issues iteratively",
+  "private": true,
+  "skills": {
+    "codex-review": {
+      "path": "SKILL.md"
+    }
+  }
+}
