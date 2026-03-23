@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly implements Interactive mode: using AskUserQuestion for each finding with the three valid options (fix as suggested, skip with reason, fix differently), and distinguishing interactive mode from automatic mode behavior.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "AskUserQuestion per finding",
+      "max_score": 15,
+      "description": "AskUserQuestion is called (or documented as the mechanism) for each individual finding in the interactive workflow, not just once at the start"
+    },
+    {
+      "name": "Fix as suggested option",
+      "max_score": 10,
+      "description": "Each per-finding prompt includes an option to 'Fix (as suggested)' or equivalent phrasing"
+    },
+    {
+      "name": "Skip with reason option",
+      "max_score": 10,
+      "description": "Each per-finding prompt includes an option to 'Skip (with reason)' or equivalent phrasing"
+    },
+    {
+      "name": "Fix differently option",
+      "max_score": 10,
+      "description": "Each per-finding prompt includes a third option allowing the user to describe an alternative fix"
+    },
+    {
+      "name": "No pre-emptive summary table",
+      "max_score": 10,
+      "description": "In Interactive mode, the agent does NOT show a bulk 'Fixing N / Skipping M' summary table before asking — it handles findings one at a time"
+    },
+    {
+      "name": "Stop after each iteration",
+      "max_score": 12,
+      "description": "In Interactive mode, after completing an iteration the agent asks the user whether to continue or stop before starting the next iteration"
+    },
+    {
+      "name": "state.json updated",
+      "max_score": 8,
+      "description": "state.json is updated after processing all findings: fixed items go into the 'fixed' array, skipped items into the 'skipped' array"
+    },
+    {
+      "name": "Mode selection prompt",
+      "max_score": 10,
+      "description": "The workflow documents or uses AskUserQuestion to ask the user to choose between Automatic and Interactive mode at the start"
+    },
+    {
+      "name": "Findings in state.json",
+      "max_score": 8,
+      "description": "The 'findings' array in state.json is populated with the findings parsed from the review output"
+    },
+    {
+      "name": "Interactive vs auto distinction",
+      "max_score": 7,
+      "description": "The implementation clearly distinguishes Interactive behavior (per-finding prompts) from Automatic behavior (bulk decision + summary table)"
+    }
+  ]
+}

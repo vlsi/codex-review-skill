@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly sets up the working directory outside the project, parses JSONL output to extract the session_id, and persists state to the correct location with the right schema. These are non-obvious implementation details critical to the skill's workflow.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Temp dir outside project",
+      "max_score": 10,
+      "description": "The script creates the working directory outside the project tree (under /tmp or $TMPDIR), not inside the repository"
+    },
+    {
+      "name": "mktemp template",
+      "max_score": 12,
+      "description": "Uses mktemp with a template that falls back through $TMPDIR, then $TEMP, then /tmp (i.e., the pattern ${TMPDIR:-${TEMP:-/tmp}})"
+    },
+    {
+      "name": "codex-review prefix in mktemp",
+      "max_score": 8,
+      "description": "The mktemp template uses 'codex-review-XXXXXX' as the suffix/template name"
+    },
+    {
+      "name": "review-output.md filename",
+      "max_score": 8,
+      "description": "The codex exec review command writes output to a file named review-output.md (not another name)"
+    },
+    {
+      "name": "--json flag used",
+      "max_score": 8,
+      "description": "The codex exec review command includes the --json flag"
+    },
+    {
+      "name": "stderr suppressed",
+      "max_score": 8,
+      "description": "The codex exec review command redirects stderr to /dev/null (2>/dev/null)"
+    },
+    {
+      "name": "JSONL session_meta parsing",
+      "max_score": 12,
+      "description": "The script or documented process parses stdout line-by-line as JSONL and looks for a line where type equals session_meta to extract session_id"
+    },
+    {
+      "name": "state.json location",
+      "max_score": 8,
+      "description": "state.json is written inside the temporary directory (not in the project directory)"
+    },
+    {
+      "name": "state.json schema",
+      "max_score": 14,
+      "description": "state.json contains all four required keys: session_id, iteration, findings, fixed, skipped"
+    },
+    {
+      "name": "Initial iteration value",
+      "max_score": 12,
+      "description": "The initial value of iteration in state.json is 1 (not 0 or any other value)"
+    }
+  ]
+}

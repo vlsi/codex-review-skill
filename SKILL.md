@@ -26,23 +26,24 @@ Ask the user via AskUserQuestion which mode to use:
 
 ## Step 3: Setup working directory
 
-Create `.codex-review/` directory in the current project root if it doesn't exist:
+Create a temporary directory outside the project to avoid polluting the repo:
 ```bash
-mkdir -p .codex-review
+CODEX_REVIEW_DIR="$(mktemp -d "${TMPDIR:-${TEMP:-/tmp}}/codex-review-XXXXXX")"
+echo "$CODEX_REVIEW_DIR"
 ```
 
-Check if `.codex-review/` is in `.gitignore`. If `.gitignore` exists but doesn't contain `.codex-review/`, append it. If `.gitignore` doesn't exist, create it with `.codex-review/` entry.
+Remember the path — all subsequent steps use `$CODEX_REVIEW_DIR` for intermediate files.
 
 ## Step 4: Run first Codex review (iteration 1)
 
 Run the codex review command:
 ```bash
-codex exec review $ARGUMENTS --json -o .codex-review/review-output.md 2>/dev/null
+codex exec review $ARGUMENTS --json -o $CODEX_REVIEW_DIR/review-output.md 2>/dev/null
 ```
 
 IMPORTANT: The `--json` flag outputs JSONL to stdout. Each line is a JSON object. Look for a line with `"type": "session_meta"` — extract the `session_id` field from it.
 
-Save state to `.codex-review/state.json`:
+Save state to `$CODEX_REVIEW_DIR/state.json`:
 ```json
 {
   "session_id": "<extracted session_id>",
@@ -55,7 +56,7 @@ Save state to `.codex-review/state.json`:
 
 ## Step 5: Analyze findings
 
-Read `.codex-review/review-output.md` and parse all findings/issues mentioned.
+Read `$CODEX_REVIEW_DIR/review-output.md` and parse all findings/issues mentioned.
 
 Classify each finding:
 - **Valid** — real bug, style issue, missing error handling, security concern
@@ -73,23 +74,23 @@ For each finding, use AskUserQuestion:
 - Skip (with reason)
 - Fix differently (let user describe how)
 
-Update `.codex-review/state.json` with findings, decisions, and statuses.
+Update `$CODEX_REVIEW_DIR/state.json` with findings, decisions, and statuses.
 
 ## Step 6: Fix the code
 
 Use Read to understand the relevant code context, then apply fixes using Edit (preferred) or Write.
 
-After all fixes are applied, update `.codex-review/state.json` — move fixed items to `fixed` array, skipped to `skipped` array.
+After all fixes are applied, update `$CODEX_REVIEW_DIR/state.json` — move fixed items to `fixed` array, skipped to `skipped` array.
 
 ## Step 7: Re-review (iterations 2-3)
 
 After fixes, run a follow-up review using `codex exec resume` to preserve Codex session context:
 
 ```bash
-codex exec resume <SESSION_ID> --json -o .codex-review/review-output.md "I have addressed the following findings: <list of fixed items>. The following were intentionally skipped: <list of skipped items with reasons>. Please re-review the changes."
+codex exec resume <SESSION_ID> --json -o $CODEX_REVIEW_DIR/review-output.md "I have addressed the following findings: <list of fixed items>. The following were intentionally skipped: <list of skipped items with reasons>. Please re-review the changes."
 ```
 
-Replace `<SESSION_ID>` with the session_id from `.codex-review/state.json`.
+Replace `<SESSION_ID>` with the session_id from `$CODEX_REVIEW_DIR/state.json`.
 
 Increment the iteration counter in state.json.
 
@@ -102,7 +103,7 @@ Repeat Steps 5-6 for new findings.
 
 ## Step 8: Final report
 
-Output a detailed summary in Russian. For each finding show: the original issue, what was decided (fix/skip), and the concrete change made.
+Output a detailed summary. For each finding show: the original issue, what was decided (fix/skip), and the concrete change made.
 
 Format:
 
@@ -130,8 +131,7 @@ Key requirements:
 
 ## Step 9: Cleanup
 
-Ask the user via AskUserQuestion whether to delete the `.codex-review/` directory.
-If yes, remove it:
+Remove the temporary directory:
 ```bash
-rm -rf .codex-review
+rm -rf "$CODEX_REVIEW_DIR"
 ```

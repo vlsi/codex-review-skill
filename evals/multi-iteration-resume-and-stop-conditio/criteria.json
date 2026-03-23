@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly implements multi-iteration review cycles: using 'codex exec resume' (not re-running 'codex exec review') for follow-up iterations, passing the session_id from state.json, including the correct context message listing fixed and skipped items, incrementing the iteration counter, and respecting stop conditions.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "resume not review",
+      "max_score": 15,
+      "description": "Follow-up iterations use 'codex exec resume' command, NOT 'codex exec review' again"
+    },
+    {
+      "name": "session_id passed to resume",
+      "max_score": 12,
+      "description": "The resume command uses the session_id value sourced from state.json (not hardcoded or omitted)"
+    },
+    {
+      "name": "Fixed items in resume message",
+      "max_score": 10,
+      "description": "The message passed to 'codex exec resume' lists the findings that were fixed (not just a generic message)"
+    },
+    {
+      "name": "Skipped items in resume message",
+      "max_score": 10,
+      "description": "The message passed to 'codex exec resume' lists the findings that were intentionally skipped with their reasons"
+    },
+    {
+      "name": "Iteration counter incremented",
+      "max_score": 10,
+      "description": "The iteration field in state.json is incremented after each review cycle (e.g., goes from 1 to 2 after the first follow-up)"
+    },
+    {
+      "name": "Stop at iteration 3",
+      "max_score": 10,
+      "description": "The script or workflow documentation specifies that the loop stops when iteration reaches 3, regardless of whether new findings exist"
+    },
+    {
+      "name": "Stop on clean review",
+      "max_score": 8,
+      "description": "The script or workflow documentation specifies that the loop stops when Codex reports no new findings"
+    },
+    {
+      "name": "resume uses --json flag",
+      "max_score": 8,
+      "description": "The 'codex exec resume' command includes the --json flag (same as the initial review command)"
+    },
+    {
+      "name": "resume writes to review-output.md",
+      "max_score": 8,
+      "description": "The 'codex exec resume' command writes output to review-output.md (same filename as initial review)"
+    },
+    {
+      "name": "state.json reflects multi-iteration state",
+      "max_score": 9,
+      "description": "The final state.json after multiple iterations shows iteration > 1 and has accumulated fixed/skipped arrays from all iterations"
+    }
+  ]
+}

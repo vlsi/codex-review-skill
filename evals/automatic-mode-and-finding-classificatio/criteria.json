@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent correctly implements Automatic mode behavior: classifying findings as valid vs false positive, presenting a summary table before applying any fixes, and using Edit (preferred over Write) when applying code changes.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Valid classification",
+      "max_score": 8,
+      "description": "The plan or documentation identifies at least one finding as 'Valid' with a reason from: real bug, style issue, missing error handling, or security concern"
+    },
+    {
+      "name": "False positive classification",
+      "max_score": 8,
+      "description": "The plan or documentation identifies at least one finding as 'False positive' with a reason from: irrelevant, debatable, or already handled in context"
+    },
+    {
+      "name": "Summary table before fixing",
+      "max_score": 12,
+      "description": "A summary table or section listing 'Fixing N findings' appears in the output BEFORE any code change is described or applied"
+    },
+    {
+      "name": "Fixing count shown",
+      "max_score": 8,
+      "description": "The summary explicitly states the number of findings to be fixed with brief descriptions of each"
+    },
+    {
+      "name": "Skipping count shown",
+      "max_score": 8,
+      "description": "The summary explicitly states the number of findings to be skipped and includes a reason for each skip"
+    },
+    {
+      "name": "No per-finding questions in auto mode",
+      "max_score": 10,
+      "description": "In Automatic mode, the plan does NOT ask the user about each individual finding — it shows the summary and proceeds to fix without per-finding prompts"
+    },
+    {
+      "name": "Edit preferred over Write",
+      "max_score": 10,
+      "description": "Code fixes are applied using Edit tool (not Write) for modifying existing files"
+    },
+    {
+      "name": "Read before fixing",
+      "max_score": 8,
+      "description": "The plan or script reads the relevant file for context before applying any fix"
+    },
+    {
+      "name": "state.json updated after fixes",
+      "max_score": 10,
+      "description": "After fixes are applied, state.json is updated: fixed items appear in the 'fixed' array and skipped items appear in the 'skipped' array"
+    },
+    {
+      "name": "Before/after code change shown",
+      "max_score": 10,
+      "description": "For each fixed item in the final report, the resolution describes what the code was before and what it became after the fix"
+    },
+    {
+      "name": "Skip reason in report",
+      "max_score": 8,
+      "description": "For each skipped item in the final report, the resolution explains the specific reason it was skipped (false positive, design decision, or out of scope)"
+    }
+  ]
+}

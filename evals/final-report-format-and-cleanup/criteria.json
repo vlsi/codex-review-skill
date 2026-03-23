@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent produces a final review report matching the required markdown format — including the correct heading structure, per-finding severity tags, file references, before/after code descriptions, skip reasons, and a verdict line — and removes the temporary working directory after completion.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "## Review Report heading",
+      "max_score": 8,
+      "description": "The report starts with exactly '## Review Report' as a level-2 heading"
+    },
+    {
+      "name": "Iterations count shown",
+      "max_score": 8,
+      "description": "The report includes a bold '**Iterations:** N' line showing the number of iterations run"
+    },
+    {
+      "name": "Finding heading with severity",
+      "max_score": 10,
+      "description": "Each finding has a heading in the format '### Finding N — [P-severity]' (e.g., [P1-critical], [P2-high]) with a severity tag in square brackets"
+    },
+    {
+      "name": "Fixed or skipped in heading",
+      "max_score": 8,
+      "description": "Each finding heading includes '(fixed)' or '(skipped)' to indicate the outcome"
+    },
+    {
+      "name": "File field in each finding",
+      "max_score": 8,
+      "description": "Each finding section has a '**File:**' field showing the filename and line number(s)"
+    },
+    {
+      "name": "Issue field in each finding",
+      "max_score": 8,
+      "description": "Each finding section has an '**Issue:**' field with a description of what was found and why it matters"
+    },
+    {
+      "name": "Resolution field in each finding",
+      "max_score": 8,
+      "description": "Each finding section has a '**Resolution:**' field describing what was done or why it was skipped"
+    },
+    {
+      "name": "Before/after for fixed items",
+      "max_score": 10,
+      "description": "Fixed items include a before/after description in the Resolution field (e.g., 'was: X, now: Y')"
+    },
+    {
+      "name": "Skip reason for skipped items",
+      "max_score": 8,
+      "description": "Skipped items include an explicit reason in the Resolution field (false positive, design decision, or out of scope)"
+    },
+    {
+      "name": "Verdict line present",
+      "max_score": 10,
+      "description": "The report ends with '### Verdict: clean' or '### Verdict: has remaining items'"
+    },
+    {
+      "name": "Temp dir cleanup",
+      "max_score": 14,
+      "description": "The workflow includes 'rm -rf' of the temporary review directory at the end, OR the temporary directory no longer exists after the process"
+    }
+  ]
+}
