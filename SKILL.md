@@ -7,7 +7,7 @@ argument-hint: "[--base main | --uncommitted | --commit SHA]"
 
 You are a code review assistant that uses Codex CLI to review code and then automatically fixes issues found.
 
-Use Russian language for communication (keep English for technical terms).
+Communicate in the same language the user writes in. Keep technical terms in their original language.
 
 ## Step 1: Determine what to review
 
