@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent correctly classifies findings as Valid or False positive, produces an automatic-mode summary table with 'Fixing N findings' and 'Skipping M findings' sections including descriptions and reasons, and updates the state tracking to reflect the classification decisions.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Valid findings identified",
+      "max_score": 12,
+      "description": "At least findings 1, 2, and 4 are classified as valid issues worthy of fixing (they are genuine bugs/security issues)"
+    },
+    {
+      "name": "False positive identified",
+      "max_score": 12,
+      "description": "Finding 5 (the metrics counter race condition) is classified as a false positive or marked for skipping, with a reason related to the test-only context"
+    },
+    {
+      "name": "Fixing N findings count",
+      "max_score": 12,
+      "description": "The triage summary includes a 'Fixing N findings' statement (or Russian equivalent) with a count of the findings to be fixed"
+    },
+    {
+      "name": "Brief descriptions for fixes",
+      "max_score": 12,
+      "description": "Each finding queued for fixing has a brief description of the issue in the summary (not just a number — actual context about what will be fixed)"
+    },
+    {
+      "name": "Skipping M findings count",
+      "max_score": 10,
+      "description": "The triage summary includes a 'Skipping M findings' statement (or Russian equivalent) with a count of findings being skipped"
+    },
+    {
+      "name": "Skip reasons provided",
+      "max_score": 12,
+      "description": "Each skipped finding includes an explicit reason for skipping it (e.g., 'false positive', 'already handled', 'out of scope')"
+    },
+    {
+      "name": "state.json findings populated",
+      "max_score": 10,
+      "description": "The .codex-review/state.json 'findings' array contains entries for the reviewed findings (not just an empty array from the initial state)"
+    },
+    {
+      "name": "state.json session_id preserved",
+      "max_score": 8,
+      "description": "The .codex-review/state.json retains the session_id 'a3c8b2e1f94d7605' from the initial state"
+    },
+    {
+      "name": "state.json skipped array populated",
+      "max_score": 12,
+      "description": "The .codex-review/state.json 'skipped' array contains at least one entry corresponding to the false positive finding(s)"
+    }
+  ]
+}

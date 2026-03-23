@@ -1,0 +1,31 @@
+{
+  "context": "Tests whether the agent correctly creates the .codex-review/ working directory and manages the .gitignore file by appending the entry rather than replacing existing content, following the specific setup instructions for the Codex review workflow.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": ".codex-review directory created",
+      "max_score": 25,
+      "description": "A directory named '.codex-review' exists in the working directory (or project root)"
+    },
+    {
+      "name": ".codex-review in .gitignore",
+      "max_score": 25,
+      "description": "The .gitignore file contains an entry for '.codex-review/' or '.codex-review'"
+    },
+    {
+      "name": "Existing .gitignore content preserved",
+      "max_score": 25,
+      "description": "The original .gitignore entries (e.g., *.exe, bin/, .env, .idea/) are still present — the file was appended to, not replaced"
+    },
+    {
+      "name": "No duplicate .gitignore entries",
+      "max_score": 15,
+      "description": "The .gitignore file does NOT contain duplicate '.codex-review' entries (only one occurrence)"
+    },
+    {
+      "name": ".gitignore not deleted and recreated",
+      "max_score": 10,
+      "description": "The .gitignore file retains its original structure and formatting — it was not deleted and recreated from scratch (evidenced by the original comments and sections still being present)"
+    }
+  ]
+}

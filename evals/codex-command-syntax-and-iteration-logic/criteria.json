@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent uses the correct Codex CLI command syntax for both initial reviews and follow-up sessions, correctly parses JSONL to extract session IDs, enforces iteration limits, and manages state appropriately in the automation script.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "codex exec review command",
+      "max_score": 8,
+      "description": "Script uses 'codex exec review' (not just 'codex review' or another variant) for the initial review invocation"
+    },
+    {
+      "name": "--json flag in review command",
+      "max_score": 10,
+      "description": "The initial 'codex exec review' call includes the '--json' flag"
+    },
+    {
+      "name": "Output redirected to .codex-review/review-output.md",
+      "max_score": 10,
+      "description": "The review command uses '-o .codex-review/review-output.md' to direct output to the correct file"
+    },
+    {
+      "name": "stderr suppressed",
+      "max_score": 8,
+      "description": "The review command includes '2>/dev/null' to suppress stderr output"
+    },
+    {
+      "name": "session_meta line detection",
+      "max_score": 12,
+      "description": "The script parses JSONL stdout by looking for a line containing '\"type\": \"session_meta\"' (or equivalent pattern) to extract the session_id"
+    },
+    {
+      "name": "codex exec resume for follow-ups",
+      "max_score": 10,
+      "description": "Follow-up iterations use 'codex exec resume' (not a new 'codex exec review') with the session ID as an argument"
+    },
+    {
+      "name": "Session ID passed to resume",
+      "max_score": 10,
+      "description": "The session_id extracted from the JSONL output is used as the argument to 'codex exec resume <SESSION_ID>'"
+    },
+    {
+      "name": "Resume includes fixed items list",
+      "max_score": 8,
+      "description": "The message passed to 'codex exec resume' includes a reference to the findings that were addressed/fixed"
+    },
+    {
+      "name": "Resume includes skipped items list",
+      "max_score": 8,
+      "description": "The message passed to 'codex exec resume' includes a reference to the findings that were intentionally skipped with reasons"
+    },
+    {
+      "name": "Maximum 3 iterations enforced",
+      "max_score": 10,
+      "description": "The loop has an explicit stop condition that prevents more than 3 total iterations (initial + 2 follow-ups)"
+    },
+    {
+      "name": ".codex-review directory created",
+      "max_score": 6,
+      "description": "The script creates the '.codex-review/' directory (e.g., via 'mkdir -p .codex-review') before writing files to it"
+    }
+  ]
+}
