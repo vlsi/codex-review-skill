@@ -4,7 +4,7 @@
 
 A backend engineering team uses an automated code review pipeline based on Codex CLI. After two iterations of review and fixes, the process has completed. The team lead needs a final human-readable report that documents every finding, what was done about it, and the overall verdict. This report will be attached to the pull request and reviewed by the team.
 
-The completed review session state is provided below. Generate the final report based on this data. The team lead specifically requested that the report be written in Russian (technical terms such as file paths, function names, and error types should remain in English).
+The completed review session state is provided below. Generate the final report based on this data. The team lead communicates in Spanish and expects the report in their language. Technical terms such as file paths, function names, and error types should remain in their original form.
 
 ## Output Specification
 
