@@ -1,3 +1,9 @@
+> [!NOTE]
+> **This skill has moved.** It now ships as the `codex-review` package in the Netcracker APM
+> marketplace:
+> [Netcracker/qubership-ai-packages → agent-packages/codex-review](https://github.com/Netcracker/qubership-ai-packages/tree/main/agent-packages/codex-review).
+> This repository is archived and read-only; further work happens there.
+
 # codex-review
 
 A Claude Code skill that runs cross-review of your code changes using [Codex CLI](https://github.com/openai/codex) (GPT-powered), then automatically fixes the issues found — all without leaving your editor.
